@@ -21,6 +21,7 @@
     "@types/debug": "^4.1.7",
     "@types/node": "^16.11.56",
     "@types/node-notifier": "^8.0.2",
+    "@types/node-wifi": "^2.0.0",
     "@types/tough-cookie": "^4.0.2",
     "@typescript-eslint/eslint-plugin": "^5.34.0",
     "@typescript-eslint/parser": "^5.34.0",
@@ -40,6 +41,7 @@
     "debug": "^4.3.4",
     "got": "^12.3.1",
     "node-notifier": "^10.0.1",
+    "node-wifi": "^2.0.16",
     "tough-cookie": "^4.1.0"
   }
 }

@@ -5,6 +5,7 @@ import got from "got"
 import { load } from "cheerio"
 import tough from "tough-cookie"
 import notifier from "node-notifier"
+import wifi from "node-wifi"
 
 const jar = new tough.CookieJar()
 
@@ -13,6 +14,7 @@ const OSZIMT_USERNAME = process.env.OSZIMT_USERNAME ?? ""
 const OSZIMT_PASSWORD = process.env.OSZIMT_PASSWORD ?? ""
 const OSZIMT_ADDR = "https://wlan-login.oszimt.de/logon/cgi/index.cgi"
 const LOGON_BUTTON = "++Login++"
+const COMPATIBLE_NETWORKS = ["OSZIMTSchueler", "OSZIMTBesucher"]
 
 const wait = (t: number): Promise<void> => new Promise(r => setTimeout(r, t))
 const notify = (text: string, timeout = 5) => {
@@ -78,7 +80,21 @@ const logIn = async () => {
   log("after login")
 }
 
-const pingLoop = async () => {
+let lastWasCorrect = true
+const pingLoop = async (): Promise<void> => {
+  const correctNetwork = await isCorrectNetwork()
+  if (!correctNetwork) {
+    log("not on correct network")
+    if (lastWasCorrect) notify("not on correct network")
+    lastWasCorrect = false
+
+    await wait(SPEED)
+    return pingLoop()
+  }
+
+  if (!lastWasCorrect) notify("back on correct network")
+  lastWasCorrect = true
+
   const online = await isLoggedIn()
 
   if (!online) {
@@ -91,6 +107,21 @@ const pingLoop = async () => {
   pingLoop()
 }
 
-pingLoop()
+const isCorrectNetwork = async () => {
+  const connections = await wifi.getCurrentConnections()
+  for (const connection of connections) {
+    if (COMPATIBLE_NETWORKS.includes(connection.ssid)) {
+      return true
+    }
+  }
 
-notify("starting ping-loop", 2)
+  return false
+}
+
+wifi.init({ iface: null })
+
+isCorrectNetwork().then(correct => {
+  if (correct) notify("starting ping-loop", 2)
+})
+
+pingLoop()
