@@ -4,6 +4,7 @@ const log = debug("oszimt-reconnector")
 import got from "got"
 import { load } from "cheerio"
 import tough from "tough-cookie"
+import notifier from "node-notifier"
 
 const jar = new tough.CookieJar()
 
@@ -14,6 +15,14 @@ const OSZIMT_ADDR = "https://wlan-login.oszimt.de/logon/cgi/index.cgi"
 const LOGON_BUTTON = "++Login++"
 
 const wait = (t: number): Promise<void> => new Promise(r => setTimeout(r, t))
+const notify = (text: string, timeout = 5) => {
+  return notifier.notify({
+    title: "oszimt-reconnector",
+    message: text,
+    open: OSZIMT_ADDR,
+    timeout,
+  })
+}
 
 const isLoggedIn = async (): Promise<boolean> => {
   const response = await got(OSZIMT_ADDR)
@@ -73,7 +82,9 @@ const pingLoop = async () => {
   const online = await isLoggedIn()
 
   if (!online) {
+    notify("logging in...", 10)
     await logIn()
+    notify("logged in", 2)
   }
 
   await wait(SPEED)
@@ -81,3 +92,5 @@ const pingLoop = async () => {
 }
 
 pingLoop()
+
+notify("starting ping-loop", 2)
