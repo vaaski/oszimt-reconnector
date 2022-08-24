@@ -1,0 +1,39 @@
+{
+  "name": "oszimt-reconnector",
+  "description": "oszimt-reconnector",
+  "keywords": [],
+  "version": "0.0.1",
+  "main": "lib/index.js",
+  "license": "MIT",
+  "author": "vaaski <admin@vaa.ski>",
+  "scripts": {
+    "start": "node -r dotenv/config dist",
+    "build": "rimraf dist && tsc",
+    "prepare": "npm run build",
+    "dev": "nodemon",
+    "format": "prettier -w **/*.{vue,ts,js,json} --no-error-on-unmatched-pattern"
+  },
+  "type": "module",
+  "files": [
+    "dist/**/*"
+  ],
+  "devDependencies": {
+    "@types/debug": "^4.1.7",
+    "@types/node": "^16.11.56",
+    "@typescript-eslint/eslint-plugin": "^5.34.0",
+    "@typescript-eslint/parser": "^5.34.0",
+    "dotenv": "^16.0.1",
+    "eslint": "^8.22.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-vue": "^9.4.0",
+    "nodemon": "^2.0.19",
+    "prettier": "^2.7.1",
+    "rimraf": "^3.0.2",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "debug": "^4.3.4"
+  }
+}
