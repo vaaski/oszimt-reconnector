@@ -7,7 +7,14 @@ import tough from "tough-cookie"
 import notifier from "node-notifier"
 import wifi from "node-wifi"
 
-const jar = new tough.CookieJar()
+import { dirname, join } from "path"
+import { fileURLToPath } from "url"
+import { readFileSync } from "fs"
+
+const __dirname = dirname(fileURLToPath(import.meta.url))
+
+const packageJson = readFileSync(join(__dirname, "..", "package.json"))
+const version = JSON.parse(packageJson.toString()).version as string
 
 const SPEED = 3e3
 const OSZIMT_USERNAME = process.env.OSZIMT_USERNAME ?? ""
@@ -16,10 +23,12 @@ const OSZIMT_ADDR = "https://wlan-login.oszimt.de/logon/cgi/index.cgi"
 const LOGON_BUTTON = "++Login++"
 const COMPATIBLE_NETWORKS = ["OSZIMTSchueler", "OSZIMTBesucher"]
 
+const jar = new tough.CookieJar()
+
 const wait = (t: number): Promise<void> => new Promise(r => setTimeout(r, t))
 const notify = (text: string, timeout = 5) => {
   return notifier.notify({
-    title: "oszimt-reconnector",
+    title: `oszimt-reconnector v${version}`,
     message: text,
     open: OSZIMT_ADDR,
     timeout,
@@ -82,25 +91,30 @@ const logIn = async () => {
 
 let lastWasCorrect = true
 const pingLoop = async (): Promise<void> => {
-  const correctNetwork = await isCorrectNetwork()
-  if (!correctNetwork) {
-    log("not on correct network")
-    if (lastWasCorrect) notify("not on correct network")
-    lastWasCorrect = false
+  try {
+    const correctNetwork = await isCorrectNetwork()
+    if (!correctNetwork) {
+      log("not on correct network")
+      if (lastWasCorrect) notify("not on correct network")
+      lastWasCorrect = false
 
-    await wait(SPEED)
-    return pingLoop()
-  }
+      await wait(SPEED)
+      return pingLoop()
+    }
 
-  if (!lastWasCorrect) notify("back on correct network")
-  lastWasCorrect = true
+    if (!lastWasCorrect) notify("back on correct network")
+    lastWasCorrect = true
 
-  const online = await isLoggedIn()
+    const online = await isLoggedIn()
 
-  if (!online) {
-    notify("logging in...", 10)
-    await logIn()
-    notify("logged in", 2)
+    if (!online) {
+      notify("logging in...", 10)
+      await logIn()
+      notify("logged in", 2)
+    }
+  } catch (error) {
+    console.log(error)
+    notify(error as string, 10)
   }
 
   await wait(SPEED)
