@@ -2,7 +2,7 @@
   "name": "oszimt-reconnector",
   "description": "oszimt-reconnector",
   "keywords": [],
-  "version": "0.0.1",
+  "version": "0.1.0",
   "main": "lib/index.js",
   "license": "MIT",
   "author": "vaaski <admin@vaa.ski>",
