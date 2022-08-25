@@ -6,6 +6,7 @@ import { load } from "cheerio"
 import tough from "tough-cookie"
 import notifier from "node-notifier"
 import wifi from "node-wifi"
+import anybar from "anybar"
 
 import { dirname, join } from "path"
 import { fileURLToPath } from "url"
@@ -91,11 +92,16 @@ const logIn = async () => {
 
 let lastWasCorrect = true
 const pingLoop = async (): Promise<void> => {
+  anybar("filled")
+
   try {
     const correctNetwork = await isCorrectNetwork()
     if (!correctNetwork) {
       log("not on correct network")
-      if (lastWasCorrect) notify("not on correct network")
+      if (lastWasCorrect) {
+        anybar("exclamation")
+        notify("not on correct network")
+      }
       lastWasCorrect = false
 
       await wait(SPEED)
@@ -108,6 +114,7 @@ const pingLoop = async (): Promise<void> => {
     const online = await isLoggedIn()
 
     if (!online) {
+      anybar("green")
       notify("logging in...", 10)
       await logIn()
       notify("logged in", 2)
@@ -117,6 +124,7 @@ const pingLoop = async (): Promise<void> => {
     notify(error as string, 10)
   }
 
+  anybar("hollow")
   await wait(SPEED)
   pingLoop()
 }
@@ -139,3 +147,16 @@ isCorrectNetwork().then(correct => {
 })
 
 pingLoop()
+
+let exiting = false
+const onQuit = async () => {
+  if (exiting) return
+  exiting = true
+
+  await anybar("question")
+  console.log("bye")
+  process.exit()
+}
+
+process.on("exit", onQuit)
+process.on("SIGINT", onQuit)
