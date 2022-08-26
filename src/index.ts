@@ -28,12 +28,16 @@ const jar = new tough.CookieJar()
 
 const wait = (t: number): Promise<void> => new Promise(r => setTimeout(r, t))
 const notify = (text: string, timeout = 5) => {
-  return notifier.notify({
-    title: `oszimt-reconnector v${version}`,
-    message: text,
-    open: OSZIMT_ADDR,
-    timeout,
-  })
+  try {
+    return notifier.notify({
+      title: `oszimt-reconnector v${version}`,
+      message: text,
+      open: OSZIMT_ADDR,
+      timeout,
+    })
+  } catch (error) {
+    log(JSON.stringify(error))
+  }
 }
 
 const isLoggedIn = async (): Promise<boolean> => {
@@ -120,8 +124,8 @@ const pingLoop = async (): Promise<void> => {
       notify("logged in", 2)
     }
   } catch (error) {
-    console.log(error)
-    notify(error as string, 10)
+    log(error)
+    notify(JSON.stringify(error), 10)
   }
 
   anybar("hollow")
@@ -154,7 +158,6 @@ const onQuit = async () => {
   exiting = true
 
   await anybar("question")
-  console.log("bye")
   process.exit()
 }
 
