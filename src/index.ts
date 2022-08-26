@@ -36,6 +36,7 @@ const notify = (text: string, timeout = 5) => {
       timeout,
     })
   } catch (error) {
+    console.log(`missed notification: ${text}`)
     log(JSON.stringify(error))
   }
 }
