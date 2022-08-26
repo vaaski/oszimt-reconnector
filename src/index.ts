@@ -5,8 +5,9 @@ import got from "got"
 import { load } from "cheerio"
 import tough from "tough-cookie"
 import notifier from "node-notifier"
-import wifi from "node-wifi"
+// import wifi from "node-wifi"
 import anybar from "anybar"
+import si from "systeminformation"
 
 import { dirname, join } from "path"
 import { fileURLToPath } from "url"
@@ -134,7 +135,8 @@ const pingLoop = async (): Promise<void> => {
 }
 
 const isCorrectNetwork = async () => {
-  const connections = await wifi.getCurrentConnections()
+  // const connections = await wifi.getCurrentConnections()
+  const connections = await si.wifiConnections()
   for (const connection of connections) {
     if (COMPATIBLE_NETWORKS.includes(connection.ssid)) {
       return true
@@ -144,7 +146,7 @@ const isCorrectNetwork = async () => {
   return false
 }
 
-wifi.init({ iface: null })
+// wifi.init({ iface: null })
 
 isCorrectNetwork().then(correct => {
   if (correct) notify("starting ping-loop", 2)
