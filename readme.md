@@ -7,6 +7,15 @@ cd oszimt-reconnector
 npm ci
 ```
 
+----
+
+#### configure credentials
+
+- copy .env.example to .env
+- fill out username and password
+
+----
+
 #### run once
 ```bash
 node dist
