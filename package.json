@@ -40,7 +40,7 @@
     "anybar": "github:vaaski/anybar",
     "cheerio": "^1.0.0-rc.12",
     "debug": "^4.3.4",
-    "got": "^12.3.1",
+    "got": "^12.5.3",
     "node-notifier": "^10.0.1",
     "systeminformation": "^5.12.6",
     "tough-cookie": "^4.1.0"
