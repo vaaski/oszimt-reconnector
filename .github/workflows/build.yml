@@ -23,8 +23,17 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v3
         with:
-          name: oszimt-reconnector
-          path: dist/*
+          name: oszimt-reconnector darwin arm64
+          path: dist/oszimt-reconnector_darwin_arm64/oszimt-reconnector
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: oszimt-reconnector darwin amd64
+          path: dist/oszimt-reconnector_darwin_amd64_v1/oszimt-reconnector
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: oszimt-reconnector windows amd64
+          path: dist/oszimt-reconnector_windows_amd64_v1/oszimt-reconnector.exe
