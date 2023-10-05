@@ -1,4 +1,4 @@
-<h1 align="center">osz-imt reconnector</h1>
+<h1 align="center">oszimt reconnector</h1>
 
 download the latest builds here:
 - [windows x64](https://nightly.link/vaaski/oszimt-reconnector/workflows/build/go/oszimt-reconnector%20windows%20amd64.zip)

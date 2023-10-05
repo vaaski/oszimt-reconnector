@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path/filepath"
 	"strings"
 	"syscall"
 
@@ -14,7 +15,8 @@ import (
 	"golang.org/x/term"
 )
 
-const CREDENTAIL_FILE = "credentials"
+var home, homeErr = os.UserHomeDir()
+var CREDENTAIL_FILE = filepath.Join(home, ".oszimt-credentials")
 
 func maybePanic(e error) {
 	if e != nil {
@@ -78,6 +80,8 @@ func askForCredentials() {
 	encoded := b64.StdEncoding.EncodeToString([]byte(joined))
 	writeErr := os.WriteFile(CREDENTAIL_FILE, []byte(encoded), 0644)
 	maybePanic(writeErr)
+
+	fmt.Println("credentials saved at", CREDENTAIL_FILE)
 }
 
 func main() {
@@ -86,8 +90,6 @@ func main() {
 	// } else {
 	// 	log.Println("not logged in")
 	// }
-
-	// askForCredentials()
 
 	username, password, err := readCredentials()
 	if err != nil {
