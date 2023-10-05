@@ -20,4 +20,5 @@
 # Go workspace file
 go.work
 
-oszimt-reconnector
+.DS_Store
+dist/
