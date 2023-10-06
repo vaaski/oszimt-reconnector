@@ -4,6 +4,7 @@ import (
 	"bufio"
 	b64 "encoding/base64"
 	"fmt"
+	"log"
 	"os"
 	"strings"
 	"syscall"
@@ -45,5 +46,5 @@ func askForCredentials() {
 	writeErr := os.WriteFile(CREDENTAIL_FILE, []byte(encoded), 0644)
 	maybePanic(writeErr)
 
-	fmt.Println("credentials saved at", CREDENTAIL_FILE)
+	log.Println("credentials saved at", CREDENTAIL_FILE)
 }
