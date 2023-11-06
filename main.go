@@ -1,3 +1,5 @@
+//go:generate goreleaser --clean --snapshot
+
 package main
 
 import (
