@@ -5,14 +5,16 @@ import (
 	"net/http"
 )
 
-func fetch(url string) *http.Response {
+func fetch(url string) (error, *http.Response) {
 	res, err := http.Get(url)
-	maybePanic(err)
+	if err != nil {
+		return err, nil
+	}
 
 	// defer res.Body.Close()
 	if res.StatusCode != 200 {
 		log.Fatalf("status code error: %d %s", res.StatusCode, res.Status)
 	}
 
-	return res
+	return nil, res
 }

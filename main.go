@@ -20,6 +20,14 @@ func maybePanic(e error) {
 		panic(e)
 	}
 }
+func wouldPanic(e error) bool {
+	if e != nil {
+		log.Println(e)
+		return true
+	}
+
+	return false
+}
 
 func main() {
 	username, password, err := readCredentials()

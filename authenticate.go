@@ -15,11 +15,17 @@ var jar, _ = cookiejar.New(nil)
 func login(username string, password string) {
 	log.Println("trying to log in")
 
-	loginPage := fetch(LOGIN_ADDR)
+	err, loginPage := fetch(LOGIN_ADDR)
+	if wouldPanic(err) {
+		return
+	}
+
 	defer loginPage.Body.Close()
 
 	doc, err := goquery.NewDocumentFromReader(loginPage.Body)
-	maybePanic(err)
+	if wouldPanic(err) {
+		return
+	}
 
 	// check if already logged in
 	logoffButton := doc.Find("[href='http://logoff.now']")
@@ -49,10 +55,14 @@ func login(username string, password string) {
 
 	client := &http.Client{Jar: jar}
 	loginResponse, loginErr := client.Post(LOGIN_ADDR, "application/x-www-form-urlencoded", encodedData)
-	maybePanic(loginErr)
+	if wouldPanic(loginErr) {
+		return
+	}
 
 	loginResponseParsed, loginParseError := goquery.NewDocumentFromReader(loginResponse.Body)
-	maybePanic(loginParseError)
+	if wouldPanic(loginParseError) {
+		return
+	}
 
 	errorElement := loginResponseParsed.Find(".message-wrapper.error")
 	if errorElement.Length() > 0 {
