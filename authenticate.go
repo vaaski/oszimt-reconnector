@@ -37,7 +37,7 @@ func login(username string, password string) {
 	// get token to log in with
 	token, exists := doc.Find("input[name=ta_id]").Attr("value")
 	if !exists {
-		log.Fatalln("no token found")
+		log.Println("no token found")
 		return
 	}
 	log.Println("token:", token)
