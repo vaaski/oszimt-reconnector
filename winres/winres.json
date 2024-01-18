@@ -14,7 +14,7 @@
           "name": "oszimt-reconnector",
           "version": ""
         },
-        "description": "school wifi needs to be logged-into after 1GB of data used. that's just annoying so this scripts automates that.",
+        "description": "The osz-imt school wifi needs to be logged-into after 1GB of data used. That's just annoying so this scripts automates logging in.",
         "minimum-os": "win7",
         "execution-level": "as invoker",
         "ui-access": false,
