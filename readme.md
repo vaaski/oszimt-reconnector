@@ -14,5 +14,6 @@ download the latest builds here:
 ### build from source
 - install go 1.21 or higher
 - [install goreleaser](https://goreleaser.com/install/#go-install)
+- [install go-winres](https://github.com/tc-hib/go-winres#installation)
 - clone this repo
 - run `go generate`
