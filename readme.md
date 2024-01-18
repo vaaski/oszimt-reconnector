@@ -3,7 +3,7 @@
 
 <br />
 
-<img alt="oszimt-reconnector" width="300" src="https://raw.githubusercontent.com/vaaski/oszimt-reconnector/main/.github/oszimt-reconnector.svg" />
+<img alt="oszimt-reconnector" width="300" src="https://raw.githubusercontent.com/vaaski/oszimt-reconnector/go/.github/oszimt-reconnector.svg" />
 
 </div>
 
