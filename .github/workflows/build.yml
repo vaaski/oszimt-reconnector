@@ -25,17 +25,20 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: MacOS app bundle
+        run: go run mac-bundle/main.go
+
       - name: Upload darwin arm64
         uses: actions/upload-artifact@v3
         with:
           name: oszimt-reconnector darwin arm64
-          path: dist/oszimt-reconnector_darwin_arm64/oszimt-reconnector
+          path: dist/oszimt-reconnector_darwin_arm64/*
 
       - name: Upload darwin amd64
         uses: actions/upload-artifact@v3
         with:
           name: oszimt-reconnector darwin amd64
-          path: dist/oszimt-reconnector_darwin_amd64_v1/oszimt-reconnector
+          path: dist/oszimt-reconnector_darwin_amd64_v1/*
 
       - name: Upload windows amd64
         uses: actions/upload-artifact@v3

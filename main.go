@@ -1,4 +1,5 @@
 //go:generate goreleaser --clean --snapshot
+//go:generate go run mac-bundle/main.go
 
 package main
 
